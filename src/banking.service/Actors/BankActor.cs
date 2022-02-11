@@ -74,23 +74,24 @@ public class BankActor : Actor, IBankActor, IRemindable
         var actorState = await this.StateManager.GetStateAsync<BankAccount>(StateStoreName);
         var reminder = JsonSerializer.Deserialize<ReminderParams>(state);
 
-        switch (reminder.ReminderType)  
-        { 
-            case TransferType.Deposit:
-                await this.Deposit(reminder.Amount);
-                break;
-            case TransferType.Withdraw:
-                if( actorState.Balance - reminder.Amount <= 0 ) {
-                    await this.UnregisterReminder(reminderName);
-                } 
-                else {
-                    await this.Withdraw(reminder.Amount);
-                }
-                break;
-            default:
-                throw new ArgumentException("Invalid value for reminder type", nameof(reminder.ReminderType));
-        };
-
+        if( reminder?.ReminderType is not null ) {
+            switch (reminder.ReminderType)  
+            { 
+                case TransferType.Deposit:
+                    await this.Deposit(reminder.Amount);
+                    break;
+                case TransferType.Withdraw:
+                    if( actorState.Balance - reminder.Amount <= 0 ) {
+                        await this.UnregisterReminder(reminderName);
+                    } 
+                    else {
+                        await this.Withdraw(reminder.Amount);
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Invalid value for reminder type", nameof(reminder.ReminderType));
+            };
+        }
     }
 
     protected override Task OnActivateAsync()
