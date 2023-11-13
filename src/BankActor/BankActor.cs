@@ -32,7 +32,7 @@ public class BankActor : Actor, IBankActor, IRemindable
         return balance;
     }
 
-    public Task UnRegisterReoccuring(TransferType type) 
+    public Task UnRegisterReoccurring(TransferType type) 
     {
         return type switch 
         {
@@ -42,7 +42,7 @@ public class BankActor : Actor, IBankActor, IRemindable
         };
     }
 
-    public Task RegisterReoccuring(TransferType type, decimal amount)
+    public Task RegisterReoccurring(TransferType type, decimal amount)
     {
         var serializedParams = JsonSerializer.SerializeToUtf8Bytes(amount);
 
@@ -61,7 +61,7 @@ public class BankActor : Actor, IBankActor, IRemindable
         return reminderName switch
         {
             "withdraw" => this.Withdraw(new WithdrawRequest(){ Amount = request}),
-            "deposit" => this.Desposit(new DepositRequest(){ Amount = request}),
+            "deposit" => this.Deposit(new DepositRequest(){ Amount = request}),
             _ => Task.CompletedTask 
         };
     }
@@ -72,7 +72,7 @@ public class BankActor : Actor, IBankActor, IRemindable
         return balance;
     }
 
-    public async Task Desposit(DepositRequest deposit)
+    public async Task Deposit(DepositRequest deposit)
     {
         var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
         var updated = this.bank.Deposit(balance.Balance, deposit.Amount);
