@@ -1,0 +1,10 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: food-config
+spec:
+  type: configuration.azure.appconfig
+  version: v1
+  metadata:
+  - name: connectionString 
+    value: "Endpoint=https://az-native-config-dev.azconfig.io;Id=btUY;Secret=dWx0WubsUnM8+Lc7Qq5gl9FBG8+KM+vFhBZ37E/S+1A="
