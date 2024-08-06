@@ -29,9 +29,7 @@ public interface IBankActor : IActor
     Task<AccountBalance> SetupNewAccount(decimal startingDeposit);
     Task<AccountBalance> GetAccountBalance();
     Task Withdraw(WithdrawRequest withdraw);
-    Task Desposit(DepositRequest deposit);   
-
-    Task UnRegisterReoccuring(TransferType type);
-    Task RegisterReoccuring(TransferType type, decimal amount);
-
+    Task Deposit(DepositRequest deposit);   
+    Task UnRegisterReoccurring(TransferType type);
+    Task RegisterReoccurring(TransferType type, decimal amount);
 }
